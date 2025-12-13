@@ -1,99 +1,116 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import socketIoClient from 'socket.io-client';
 
 export const GeneralContext = createContext();
 
-const GeneralContextProvider = ({children}) => {
+const GeneralContextProvider = ({ children }) => {
 
-  const WS = 'http://localhost:6001';
+  const BASE_URL = "http://localhost:6001";
 
-  const socket = socketIoClient(WS);
-
+  // Socket
+  const socket = socketIoClient(BASE_URL);
 
   const navigate = useNavigate();
 
+  // Auth states
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [usertype, setUsertype] = useState('');
- 
-  
-  
-  
-  const login = async () =>{
-    try{
-      const loginInputs = {email, password}
-        await axios.post('http://localhost:6001/login', loginInputs)
-        .then( async (res)=>{
 
-          localStorage.setItem('userId', res.data._id);
-            localStorage.setItem('usertype', res.data.usertype);
-            localStorage.setItem('username', res.data.username);
-            localStorage.setItem('email', res.data.email);
-            if(res.data.usertype === 'freelancer'){
-                navigate('/freelancer');
-            } else if(res.data.usertype === 'client'){
-              navigate('/client');
-            } else if(res.data.usertype === 'admin'){
-                navigate('/admin');
-            }
-          }).catch((err) =>{
-            alert("login failed!!");
-            console.log(err);
-          });
-          
-        }catch(err){
-          console.log(err);
-        }
+  /* ========================= LOGIN ========================= */
+  const login = async () => {
+    try {
+      const loginInputs = { email, password };
+
+      const res = await axios.post(`${BASE_URL}/login`, loginInputs);
+
+      // Save session
+      localStorage.setItem('userId', res.data._id);
+      localStorage.setItem('usertype', res.data.usertype);
+      localStorage.setItem('username', res.data.username);
+      localStorage.setItem('email', res.data.email);
+
+      // Redirect based on role
+      if (res.data.usertype === 'freelancer') {
+        navigate('/freelancer');
+      } else if (res.data.usertype === 'client') {
+        navigate('/client');
+      } else if (res.data.usertype === 'admin') {
+        navigate('/admin');
       }
-      
-  const inputs = {username, email, usertype, password};
 
-  const register = async () =>{
-    try{
-        await axios.post('http://localhost:6001/register', inputs)
-        .then( async (res)=>{
-            localStorage.setItem('userId', res.data._id);
-            localStorage.setItem('usertype', res.data.usertype);
-            localStorage.setItem('username', res.data.username);
-            localStorage.setItem('email', res.data.email);
-
-            if(res.data.usertype === 'freelancer'){
-              navigate('/freelancer');
-          } else if(res.data.usertype === 'client'){
-            navigate('/client');
-          } else if(res.data.usertype === 'admin'){
-              navigate('/admin');
-          }
- 
-        }).catch((err) =>{
-            alert("registration failed!!");
-            console.log(err);
-        });
-    }catch(err){
-        console.log(err);
+    } catch (err) {
+      console.error("LOGIN ERROR:", err.response?.data || err.message);
+      alert(err.response?.data?.msg || "Login failed");
     }
-  }
+  };
 
+  /* ========================= REGISTER ========================= */
+  const register = async () => {
+    try {
+      const inputs = {
+        username,
+        email,
+        password,
+        usertype
+      };
 
-  const logout = async () =>{
-    
+      const res = await axios.post(`${BASE_URL}/register`, inputs);
+
+      // Save session
+      localStorage.setItem('userId', res.data._id);
+      localStorage.setItem('usertype', res.data.usertype);
+      localStorage.setItem('username', res.data.username);
+      localStorage.setItem('email', res.data.email);
+
+      // Redirect based on role
+      if (res.data.usertype === 'freelancer') {
+        navigate('/freelancer');
+      } else if (res.data.usertype === 'client') {
+        navigate('/client');
+      } else if (res.data.usertype === 'admin') {
+        navigate('/admin');
+      }
+
+    } catch (err) {
+      console.error("REGISTER ERROR:", err.response?.data || err.message);
+      alert(
+        err.response?.data?.msg ||
+        err.response?.data?.error ||
+        "Registration failed"
+      );
+    }
+  };
+
+  /* ========================= LOGOUT ========================= */
+  const logout = () => {
     localStorage.clear();
-    for (let key in localStorage) {
-      if (localStorage.hasOwnProperty(key)) {
-        localStorage.removeItem(key);
-      }
-    }
-    
     navigate('/');
-  }
-
+  };
 
   return (
-    <GeneralContext.Provider value={{socket, login, register, logout, username, setUsername, email, setEmail, password, setPassword, usertype, setUsertype}} >{children}</GeneralContext.Provider>
-  )
-}
+    <GeneralContext.Provider
+      value={{
+        socket,
+        login,
+        register,
+        logout,
+        username,
+        setUsername,
+        email,
+        setEmail,
+        password,
+        setPassword,
+        usertype,
+        setUsertype
+      }}
+    >
+      {children}
+    </GeneralContext.Provider>
+  );
+};
 
-export default GeneralContextProvider
+export default GeneralContextProvider;
