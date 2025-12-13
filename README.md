@@ -1,7 +1,9 @@
 # SB Works – Freelancing Application (MERN Stack)
 
-SB Works is a full-stack **Freelancing Web Application** developed using the **MERN stack** (MongoDB, Express.js, React.js, Node.js).  
-The platform connects **freelancers** and **clients**, allowing users to post projects, apply for jobs, manage profiles, and collaborate efficiently.
+SB Works is a full-stack **Freelancing Web Application** developed using the **MERN stack**  
+(**MongoDB, Express.js, React.js, Node.js**).
+
+The platform connects **clients** and **freelancers**, allowing users to post projects, apply for jobs, manage applications, and collaborate efficiently.
 
 ---
 
@@ -9,23 +11,32 @@ The platform connects **freelancers** and **clients**, allowing users to post pr
 
 ### 👤 User Authentication
 - User registration and login
-- Role-based access (Client / Freelancer)
-- Secure authentication using JWT
+- Role-based access (**Client / Freelancer**)
+- Secure password handling using **bcrypt**
+
+---
 
 ### 🧑‍💼 Client Features
-- Post freelance projects
-- View freelancer applications
-- Manage posted projects
+- Create and post freelance projects
+- View all applications received for projects
+- Approve or reject freelancer applications
+- Track project status (Posted / Assigned / Completed)
+
+---
 
 ### 🧑‍🎨 Freelancer Features
-- Browse available projects
-- Apply for freelance jobs
-- Manage freelancer profile
+- View all available projects
+- Apply for projects with bid amount and proposal
+- View applied projects and application status
+- Manage ongoing and completed projects
+
+---
 
 ### 🌐 General Features
-- Responsive user interface
-- RESTful API integration
-- MongoDB database for data persistence
+- Responsive and user-friendly interface
+- RESTful API-based communication
+- Real-time features using **Socket.IO**
+- MongoDB used for persistent data storage
 
 ---
 
@@ -47,8 +58,8 @@ The platform connects **freelancers** and **clients**, allowing users to post pr
 ### Tools & Platforms
 - MongoDB Compass
 - Git & GitHub
-- Visual Studio Code / IntelliJ IDEA
-- Postman (for API testing)
+- Visual Studio Code
+- Postman (API testing)
 
 ---
 
@@ -59,45 +70,92 @@ SB-Works-Freelancing-Application-MERN
 ├── client/ # React frontend
 │ ├── public/
 │ └── src/
+│ ├── components/
+│ ├── pages/
+│ ├── context/
+│ └── styles/
 │
 ├── server/ # Node.js backend
-│ ├── models/
-│ ├── routes/
-│ ├── controllers/
+│ ├── Schema.js
+│ ├── SocketHandler.js
 │ └── index.js
 │
-└── README.md 
+├── screenshots/ # Application screenshots
+│
+└── README.md
 
 
 
 ---
 
+## 🖼️ Application Screenshots
+
+Screenshots of the application UI are available in the **screenshots/** folder, including:
+
+- Landing Page  
+- Login Page  
+- Register Page  
+- Client Dashboard  
+- Client New Project Page  
+- Client Applications Page  
+- Freelancer Dashboard  
+- Freelancer All Projects Page  
+- Freelancer My Projects Page  
+- Freelancer Applications Page  
+
+---
+
 ## ⚙️ Installation & Execution Steps
 
-### 1️⃣ Clone the Repository
-```bash
+1️⃣ Clone the Repository
+
 git clone https://github.com/KrishnaVamsi28/SB-Works-Freelancing-Application-MERN.git
 cd SB-Works-Freelancing-Application-MERN
 
 
 2️⃣ Start Backend Server
+
 cd server
 npm install
 node index.js
 
-Backend runs on:
-http://localhost:5000
 
+Backend runs on:
+
+http://localhost:6001
 
 3️⃣ Start Frontend
+
 cd client
 npm install
 npm start
 
+
 Frontend runs on:
+
 http://localhost:3000
 
-
 4️⃣ Start MongoDB
+
 Ensure MongoDB service is running:
+
 mongod
+
+---
+
+## 📌 Notes
+
+ Admin functionality is not included in this project.
+
+ Only Client and Freelancer roles are supported.
+
+ Designed for academic, learning, and demonstration purposes.
+
+---
+
+## 👨‍💻 Developed by
+
+ Krishna Vamsi
+ GitHub: https://github.com/KrishnaVamsi28
+
+---
