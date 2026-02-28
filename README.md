@@ -1,4 +1,4 @@
-# SB Works – Freelancing Application (MERN Stack)
+# Freelancing Application (MERN Stack)
 
 SB Works is a full-stack **Freelancing Web Application** developed using the **MERN stack**  
 (**MongoDB, Express.js, React.js, Node.js**).
